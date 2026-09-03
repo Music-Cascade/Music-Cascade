@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model SongMapping {
+  id              String    @id @default(uuid())
+  isrc            String?
+  spotifyId       String?   @unique
+  ytVideoId       String?   @unique
+  appleMusicId    String?   @unique
+  deezerId        String?   @unique
+  tidalId         String?   @unique
+  title           String
+  artist          String
+  durationSec     Int?
+  failCount       Int       @default(0)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  lastVerifiedAt  DateTime  @default(now())
+
+  @@index([isrc])
+  @@index([title, artist])
+}
